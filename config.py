@@ -1,0 +1,3 @@
+# TELEGRAM API KEY
+
+token = '1735251856:AAGSiFs_qmH6Gap9n4MdYa3iDCn_jtGcBno'
