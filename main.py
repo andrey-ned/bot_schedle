@@ -50,7 +50,11 @@ def get_day_schedule(message):
 
 
 def create_user(message):
-    name, surname = message.text.split()
+    try:
+        name, surname = message.text.split()
+    except ValueError:
+        bot.send_message(message.chat.id, f"Введи через пробіл, наприклад Іван Іванов")
+        bot.register_next_step_handler(message, create_user)
     db.add_user([message.from_user.id, name, surname, message.chat.username])
 
     kb = types.InlineKeyboardMarkup()
