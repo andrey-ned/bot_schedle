@@ -52,7 +52,7 @@ def schedule_kb():
 
 
 def settings_kb():
-    keyboard = types.ReplyKeyboardMarkup(True)
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     keyboard.row('Ім\'я', 'Прізвище')
     keyboard.row('Пошта', 'Тиждень')
     keyboard.row('Група', 'Курс')
