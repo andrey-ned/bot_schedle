@@ -187,6 +187,8 @@ def check_schedule_comm(message):
     elif message.text.lower() == 'модуль':
 
         data = 'https://drive.google.com/file/d/1zIFko09OBJNZfoeHkG3cJWXFdU5DwROY/view?usp=sharing'
+    else:
+        data = 'Я тебе не розумію'
 
     bot.send_message(message.chat.id, data, reply_markup=menu_kb())
 
@@ -236,15 +238,15 @@ def do_settings(message):
     trigger = message.text.lower()
 
     if trigger == "ім'я":
-        bot.send_message(message.chat.id, f"Назви свое нове ім'я", reply_markup=None)
+        bot.send_message(message.chat.id, f"Назви свое нове ім'я")
         bot.register_next_step_handler(message, update_name)
 
     elif trigger == "прізвище":
-        bot.send_message(message.chat.id, f"Назви нове прізвище", reply_markup=None)
+        bot.send_message(message.chat.id, f"Назви нове прізвище")
         bot.register_next_step_handler(message, update_surname)
 
     elif trigger == "пошта":
-        bot.send_message(message.chat.id, f"Назви нову пошту", reply_markup=None)
+        bot.send_message(message.chat.id, f"Назви нову пошту")
         bot.register_next_step_handler(message, update_email)
 
     elif trigger == "тиждень":
@@ -259,6 +261,9 @@ def do_settings(message):
 
     elif trigger == "курс":
         bot.send_message(message.chat.id, f"Назви новий курс", reply_markup=update_course_kb())
+    else:
+        data = 'Я тебе не розумію'
+        bot.send_message(message.chat.id, data, reply_markup=menu_kb())
 
 
 def update_name(message):
