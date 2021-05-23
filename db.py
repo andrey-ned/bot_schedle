@@ -16,7 +16,8 @@ def init_db():
 def add_user(user):
     conn = sqlite3.connect("sqlite.db")
     cursor = conn.cursor()
-    cursor.execute(f"insert into 'user'(user_id, first_name, username) values ({user[0]}, '{user[1]}', '{user[2]}')")
+    cursor.execute(f"insert into 'user'(user_id, first_name, last_name, username) values ({user[0]},"
+                   f" '{user[1]}', '{user[2]}', '{user[3]}')")
     conn.commit()
 
 

@@ -50,8 +50,8 @@ def get_day_schedule(message):
 
 
 def create_user(message):
-    name = message.text
-    db.add_user([message.from_user.id, name, message.chat.username])
+    name, surname = message.text.split()
+    db.add_user([message.from_user.id, name, surname, message.chat.username])
 
     kb = types.InlineKeyboardMarkup()
     kb.add(*course_kb())
@@ -63,7 +63,7 @@ def create_user(message):
 @bot.message_handler(commands=["start"])
 def start_message(message):
 
-    bot.send_message(message.chat.id, "Привіт, будемо навчатись разом!\nЯк тебе звати?", )
+    bot.send_message(message.chat.id, "Привіт, будемо навчатись разом!\nЯк тебе звати? (Ім'я та Фамілія)", )
     bot.register_next_step_handler(message, create_user)
 
 
@@ -232,15 +232,15 @@ def do_settings(message):
     trigger = message.text.lower()
 
     if trigger == "ім'я":
-        bot.send_message(message.chat.id, f"Назви свое нове ім'я")
+        bot.send_message(message.chat.id, f"Назви свое нове ім'я", reply_markup=None)
         bot.register_next_step_handler(message, update_name)
 
     elif trigger == "прізвище":
-        bot.send_message(message.chat.id, f"Назви нове прізвище")
+        bot.send_message(message.chat.id, f"Назви нове прізвище", reply_markup=None)
         bot.register_next_step_handler(message, update_surname)
 
     elif trigger == "пошта":
-        bot.send_message(message.chat.id, f"Назви нову пошту")
+        bot.send_message(message.chat.id, f"Назви нову пошту", reply_markup=None)
         bot.register_next_step_handler(message, update_email)
 
     elif trigger == "тиждень":
