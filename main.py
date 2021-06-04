@@ -33,6 +33,7 @@ def run_continuously(interval=1):
     return cease_continuous_run
 
 
+# отримання тижневого розкладу
 def get_week_schedule(message):
 
     user_data = db.get_schedule(message.from_user.id)
@@ -41,6 +42,7 @@ def get_week_schedule(message):
     return result
 
 
+# отримання денного розкладу
 def get_day_schedule(message):
 
     user_data = db.get_schedule(message.from_user.id)
@@ -49,6 +51,7 @@ def get_day_schedule(message):
     return result
 
 
+# створення користувача - ФІО
 def create_user(message):
     try:
         name, surname = message.text.split()
@@ -95,7 +98,7 @@ def get_group(call):
     bot.send_message(call.message.chat.id, "Який зараз варіант тиждня?", reply_markup=kb)
 
 
-# Функція отримання тиждня та опис команд
+# Функція отримання тиждня та початок роботи
 @bot.callback_query_handler(func=lambda call: call.data in ['one', 'two'])
 def get_week(call):
     if call.data == "one":
@@ -106,6 +109,7 @@ def get_week(call):
     bot.send_message(call.message.chat.id, "Я до твоїх послуг!", reply_markup=menu_kb())
 
 
+# Функція оновлення курсу
 @bot.callback_query_handler(func=lambda call: call.data.startswith('update__'))
 def update_course(call):
     course = str(call.data)[call.data.index('update__') + 8:]
@@ -114,6 +118,7 @@ def update_course(call):
     bot.send_message(call.message.chat.id, f"Курс оновлен {course}", reply_markup=menu_kb())
 
 
+# Функція оновлення групи
 @bot.callback_query_handler(func=lambda call: call.data.startswith('update_'))
 def update_group(call):
     group = str(call.data)[call.data.index('update_') + 7:]
@@ -122,6 +127,7 @@ def update_group(call):
     bot.send_message(call.message.chat.id, f"Група оновленна {group}", reply_markup=menu_kb())
 
 
+# Функція оновлення тиждня
 @bot.callback_query_handler(func=lambda call: call.data.startswith('u_'))
 def update_week(call):
     week = str(call.data)[call.data.index('u_') + 2:]
@@ -135,21 +141,24 @@ def update_week(call):
     bot.send_message(call.message.chat.id, f"Тиждень оновленно на {week}", reply_markup=menu_kb())
 
 
-# Функція перехвату тексту им'я чи номер тиждня
+# Функція отримання команд головного меню
 @bot.message_handler(content_types=["text"])
 def get_text(message):
-    sticker = 'CAACAgIAAxkBAAEB7wABYDuaxB69u5TcWry61hqKoYEwA0AAAn4CAAJWnb0KQWJ0X1FsrOQeBA'
+
     buttons = ('розклад', 'нагадування', 'одногрупники', 'бесіда', 'налаштування')
     trigger = message.text.lower()
-
+    # опрацювання кнопок меню
     if trigger in buttons:
+        # опрацювання кнопки розклад
         if trigger == buttons[0]:
             bot.send_message(message.chat.id, "Який розклад бажаєш?", reply_markup=schedule_kb())
             bot.register_next_step_handler(message, check_schedule_comm)
+        # опрацювання кнопки нагадування
         elif trigger == buttons[1]:
             msg = 'В тебе є одне нагадування!\nСтворити на сьогодні чи іншу дату ?'
             bot.send_message(message.chat.id, msg, reply_markup=alert_kb())
             bot.register_next_step_handler(message, create_remind)
+        # опрацювання кнопки список одногруппників
         elif trigger == buttons[2]:
             students = db.get_user_group(message.chat.id)
             data = ''
@@ -157,11 +166,13 @@ def get_text(message):
                 data += f'Студент: {stu[0]}  {stu[1]} \n Пошта: {stu[2]}\n Телеграм: @{stu[3]}\n'
                 data += '-'*10 + '\n'
             bot.send_message(message.chat.id, data, reply_markup=menu_kb())
+        # опрацювання кнопки посилання на чат
         elif trigger == buttons[3]:
             user_data = db.get_schedule(message.chat.id)
             course, group = user_data[1:3]
             data = get_tg_chat(group, course)
             bot.send_message(message.chat.id, data, reply_markup=menu_kb())
+        # опрацювання кнопки налаштування
         elif trigger == buttons[4]:
             msg = "У налаштуваннях можна додати:\n" \
                   "Ім'я, Прізвище та Пошту. \n " \
@@ -170,6 +181,7 @@ def get_text(message):
             bot.register_next_step_handler(message, do_settings)
 
 
+# Функція підменю розкладу, вибір розкладу
 def check_schedule_comm(message):
     if message.text.lower() == 'на сьогодні':
         today = datetime.datetime.now()
@@ -193,16 +205,19 @@ def check_schedule_comm(message):
     bot.send_message(message.chat.id, data, reply_markup=menu_kb())
 
 
+# Функція підменю  нагадування
 def create_remind(message):
     if message.text.lower() == 'на сьогодні':
 
         bot.send_message(message.chat.id, 'Введи нагадування в форматі  " 00:00 - текст нагадування "')
         bot.register_next_step_handler(message, create_note_today)
+
     elif message.text.lower() == 'інша дата':
+
         bot.send_message(message.chat.id, 'Введи нагадування в форматі   " 00.00 (дата 28.08) 00:00 (час) - текст нагадування "')
         bot.register_next_step_handler(message, create_note_date)
 
-
+# Функція створення нагадування на сьогодні
 def create_note_today(message):
     try:
         note_time, note = message.text.split('-')
@@ -217,6 +232,7 @@ def create_note_today(message):
     bot.send_message(message.chat.id, 'Я нагадаю тобі', reply_markup=menu_kb())
 
 
+# Функція створення нагадування на дату
 def create_note_date(message):
     try:
         note_datetime, note = message.text.split('-')
@@ -234,6 +250,7 @@ def create_note_date(message):
     bot.send_message(message.chat.id, 'Я нагадаю тобі', reply_markup=menu_kb())
 
 
+# Функція обробки підменю налаштування
 def do_settings(message):
     trigger = message.text.lower()
 
@@ -261,21 +278,28 @@ def do_settings(message):
 
     elif trigger == "курс":
         bot.send_message(message.chat.id, f"Назви новий курс", reply_markup=update_course_kb())
+    elif trigger == "назад":
+        bot.delete_message(message.chat.id, message.message_id)
+        data = 'Головне меню'
+        bot.send_message(message.chat.id, data, reply_markup=menu_kb())
     else:
         data = 'Я тебе не розумію'
         bot.send_message(message.chat.id, data, reply_markup=menu_kb())
 
 
+# Функція оновлення ім'я
 def update_name(message):
     db.add_firstName([message.from_user.id, message.text])
     bot.send_message(message.chat.id, f"Готово, нове ім'я {message.text}", reply_markup=menu_kb())
 
 
+# Функція оновлення прізвища
 def update_surname(message):
     db.add_lastName([message.from_user.id, message.text])
     bot.send_message(message.chat.id, f"Готово, нове прізвище {message.text}", reply_markup=menu_kb())
 
 
+# Функція оновлення пошти
 def update_email(message):
     db.add_email([message.from_user.id, message.text])
     bot.send_message(message.chat.id, f"Готово, нова пошта {message.text}", reply_markup=menu_kb())

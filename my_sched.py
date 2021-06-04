@@ -4,6 +4,7 @@ import datetime
 import pandas as pd
 import numpy as np
 
+# посилання на чати
 chats = {
     '1': {
         'KI': 'https://t.me/joinchat/exP2RH3Fa2FlZmQ6',
@@ -57,6 +58,7 @@ chats = {
 }
 
 
+# зчитування рокзладу з таблиці
 def read_schedule(user):
 
     week = {1: '1week', 2: '2week'}
@@ -134,5 +136,6 @@ def day_reminder(df_sched):
     return result
 
 
+# отримання посилланя на чат
 def get_tg_chat(group, course):
     return chats[course][group]

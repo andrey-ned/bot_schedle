@@ -45,7 +45,7 @@ def add_week(user):
     conn.commit()
 
 
-# додавання тиждня користувача
+# додавання ім'я користувача
 def add_firstName(user):
     conn = sqlite3.connect("sqlite.db")
     cursor = conn.cursor()
@@ -53,6 +53,7 @@ def add_firstName(user):
     conn.commit()
 
 
+# додавання прізвища користувача
 def add_lastName(user):
     conn = sqlite3.connect("sqlite.db")
     cursor = conn.cursor()
@@ -60,6 +61,7 @@ def add_lastName(user):
     conn.commit()
 
 
+# додавання пошти користувача
 def add_email(user):
     conn = sqlite3.connect("sqlite.db")
     cursor = conn.cursor()
@@ -87,6 +89,7 @@ def get_all():
     return user_data
 
 
+# отримання списку одногрупників
 def get_user_group(user_id):
     data = get_schedule(user_id)
     conn = sqlite3.connect("sqlite.db")

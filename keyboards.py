@@ -10,6 +10,7 @@ def course_kb():
     return buttons
 
 
+# Генерація клавіатури оновлення курсу
 def update_course_kb():
     kb = types.InlineKeyboardMarkup()
     values = (('1 курс', 'update__1'), ('2 курс', 'update__2'), ('3 курс', 'update__3'), ('4 курс', 'update__4'),
@@ -28,6 +29,7 @@ def group_kb():
     return buttons
 
 
+# Генерація клавіатури оновлення групи
 def update_group_kb():
     kb = types.InlineKeyboardMarkup()
     values = (('КІ', 'update_KI'), ('БЦІ', 'update_BCI'), ('ПМ', 'update_PM'), ('АКIT', 'update_AKIT'),
@@ -37,6 +39,7 @@ def update_group_kb():
     return kb
 
 
+# Генерація клавіатури головного меню
 def menu_kb():
     keyboard = types.ReplyKeyboardMarkup(True)
     keyboard.row('Розклад', 'Нагадування')
@@ -45,20 +48,24 @@ def menu_kb():
     return keyboard
 
 
+# Генерація клавіатури підменю розклад
 def schedule_kb():
     keyboard = types.ReplyKeyboardMarkup(True)
     keyboard.row('На сьогодні', 'На тиждень', 'Екзамени', 'Модуль')
     return keyboard
 
 
+# Генерація клавіатури підменю  налаштування
 def settings_kb():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     keyboard.row('Ім\'я', 'Прізвище')
     keyboard.row('Пошта', 'Тиждень')
     keyboard.row('Група', 'Курс')
+    keyboard.row('Назад')
     return keyboard
 
 
+# Генерація клавіатури підменю нагадування
 def alert_kb():
     keyboard = types.ReplyKeyboardMarkup(True)
     keyboard.row('На сьогодні', 'Інша дата')
