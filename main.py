@@ -273,7 +273,7 @@ def do_settings(message):
         kb.add(week_1, week_2)
         bot.send_message(message.chat.id, f"Назви новий тиждень", reply_markup=kb)
 
-    elif trigger == "група":
+    elif trigger == "спеціальність":
         bot.send_message(message.chat.id, f"Назви нову спеціальність", reply_markup=update_group_kb())
 
     elif trigger == "курс":
