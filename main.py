@@ -70,7 +70,7 @@ def create_user(message):
 @bot.message_handler(commands=["start"])
 def start_message(message):
 
-    bot.send_message(message.chat.id, "Привіт, будемо навчатись разом!\nЯк тебе звати? (Ім'я та Фамілія)", )
+    bot.send_message(message.chat.id, "Привіт, будемо навчатись разом!\nЯк тебе звати? (Ім'я та Прізвище)", )
     bot.register_next_step_handler(message, create_user)
 
 
@@ -124,7 +124,7 @@ def update_group(call):
     group = str(call.data)[call.data.index('update_') + 7:]
 
     db.add_group([call.from_user.id, group])
-    bot.send_message(call.message.chat.id, f"Група оновленна {group}", reply_markup=menu_kb())
+    bot.send_message(call.message.chat.id, f"Спеціальність оновленна {group}", reply_markup=menu_kb())
 
 
 # Функція оновлення тиждня
@@ -176,7 +176,7 @@ def get_text(message):
         elif trigger == buttons[4]:
             msg = "У налаштуваннях можна додати:\n" \
                   "Ім'я, Прізвище та Пошту. \n " \
-                  "Вибрати тиждень або змінити групу та курс"
+                  "Вибрати тиждень або змінити спеціальність та курс"
             bot.send_message(message.chat.id, msg, reply_markup=settings_kb())
             bot.register_next_step_handler(message, do_settings)
 
@@ -274,7 +274,7 @@ def do_settings(message):
         bot.send_message(message.chat.id, f"Назви новий тиждень", reply_markup=kb)
 
     elif trigger == "група":
-        bot.send_message(message.chat.id, f"Назви нову групу", reply_markup=update_group_kb())
+        bot.send_message(message.chat.id, f"Назви нову спеціальність", reply_markup=update_group_kb())
 
     elif trigger == "курс":
         bot.send_message(message.chat.id, f"Назви новий курс", reply_markup=update_course_kb())
