@@ -60,7 +60,7 @@ def settings_kb():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     keyboard.row('Ім\'я', 'Прізвище')
     keyboard.row('Пошта', 'Тиждень')
-    keyboard.row('Група', 'Курс')
+    keyboard.row('Спеціальність', 'Курс')
     keyboard.row('Назад')
     return keyboard
 
