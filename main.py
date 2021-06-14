@@ -95,7 +95,7 @@ def get_group(call):
     week_1 = types.InlineKeyboardButton(text="1", callback_data="one")
     week_2 = types.InlineKeyboardButton(text="2", callback_data="two")
     kb.add(week_1, week_2)
-    bot.send_message(call.message.chat.id, "Який зараз варіант тиждня?", reply_markup=kb)
+    bot.send_message(call.message.chat.id, "Який зараз варіант тижня?", reply_markup=kb)
 
 
 # Функція отримання тиждня та початок роботи
